@@ -1,27 +1,54 @@
 <template>
   <el-container>
-    <el-header style="padding: 0;">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        background-color="#3949AB"
-        text-color="#fff"
-        active-text-color="#fff"
-      >
-        <el-menu-item index="1">关键词管理</el-menu-item>
-      </el-menu>
+    <el-header class="header">
+      <el-row>
+        <el-col :span="4">
+          <span class="title">关键词管理</span>
+        </el-col>
+        <el-col :span="2" :offset="18">
+          <el-tooltip content="搜索" placement="top">
+            <span class="el-dropdown-link">
+              <router-link to='/'>
+                <i class="el-icon-search el-icon--right"></i>
+              </router-link>
+            </span>
+          </el-tooltip>
+          <el-dropdown style="margin-top: 20px;">
+            <span class="el-dropdown-link">
+              <i class="el-icon-more el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <router-link to="/manage/keywords">关键词管理</router-link>
+              </el-dropdown-item>
+              <el-dropdown-item>定时任务管理</el-dropdown-item>
+              <el-dropdown-item>采集统计</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+      </el-row>
     </el-header>
-    <el-main>
-      <el-tag>标签一</el-tag>
-      <el-tag
-        :key="tag"
-        v-for="tag in dynamicTags"
-        closable
-        :disable-transitions="false"
-        @close="handleClose(tag)">
-        {{tag}}
-      </el-tag>
+    <el-main style="margin:50px">
+      <el-popover
+        placement="top"
+        width="160"
+        v-for="(tag, index) in dynamicTags"
+        v-model="tag.deletePop"
+        :key="index">
+        <p>确定删除吗？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="dynamicTags[index].deletePop = false">取消</el-button>
+          <el-button type="primary" size="mini" @click="deleteTag(index)">确定</el-button>
+        </div>
+        <el-tag
+          closable
+          :disable-transitions="false"
+          @close="handleClose(index)"
+          slot="reference"
+          style="margin-right:15px;">
+          {{tag.name}}
+        </el-tag>
+      </el-popover>
       <el-input
         class="input-new-tag"
         v-if="inputVisible"
@@ -41,27 +68,39 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      dynamicTags: ['标签一', '标签二', '标签三'],
+      dynamicTags: [
+        { name: '标签一', deletePop: false },
+        { name: '标签二', deletePop: false },
+        { name: '标签三', deletePop: false },
+        { name: '标签四', deletePop: false },
+        { name: '标签五', deletePop: false },
+        { name: '标签六', deletePop: false },
+        { name: '标签七', deletePop: false },
+        { name: '标签八', deletePop: false },
+        { name: '标签九', deletePop: false },
+      ],
       inputVisible: false,
-      inputValue: ''
+      inputValue: '',
+      deletePop: true
     }
   },
   methods: {
-      handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      handleClose(index) {
+        this.dynamicTags[index].deletePop = true
       },
-
+      deleteTag(index) {
+        this.dynamicTags.splice(index, 1);
+      },
       showInput() {
         this.inputVisible = true;
         this.$nextTick(_ => {
           this.$refs.saveTagInput.$refs.input.focus();
         });
       },
-
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
-          this.dynamicTags.push(inputValue);
+          this.dynamicTags.push({ name: inputValue, deletePop: false });
         }
         this.inputVisible = false;
         this.inputValue = '';
@@ -84,5 +123,23 @@ export default {
   width: 90px;
   margin-left: 10px;
   vertical-align: bottom;
+}
+.header{
+  padding: 0;
+  background-color:#3949AB;
+  color: white;
+}
+.el-dropdown-link{
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  margin-right: 20px;
+}
+.title{
+  color: white;
+  font-size: 20px;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  display: inline-block;
+  margin: 15px 30px;
 }
 </style>

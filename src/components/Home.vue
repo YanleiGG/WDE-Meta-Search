@@ -8,9 +8,9 @@
               <i class="el-icon-more el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <router-link to="/manage/keywords">关键词管理</router-link>
-              </el-dropdown-item>
+              <router-link to="/manage/keywords">
+                <el-dropdown-item>关键词管理</el-dropdown-item>
+              </router-link>
               <el-dropdown-item>定时任务管理</el-dropdown-item>
               <el-dropdown-item>采集统计</el-dropdown-item>
             </el-dropdown-menu>
@@ -101,12 +101,15 @@ export default {
 .title{
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   font-size: 30px;
+  color: black;
 }
 .searchTabs{
   text-align: center;
 }
 .el-dropdown-link{
+  font-size: 18px;
   cursor: pointer;
+  color: black;
 }
 .keywords{
   text-align: left;
@@ -119,9 +122,5 @@ export default {
   text-align: left;
   margin-top: 35px;
   margin-bottom: 20px;
-}
-a{
-  text-decoration: none;
-  color: inherit;
 }
 </style>
