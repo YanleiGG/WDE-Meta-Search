@@ -24,4 +24,10 @@ a{
   text-decoration: none;
   color: inherit;
 }
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+.el-select .el-input {
+  width: 130px;
+}
 </style>

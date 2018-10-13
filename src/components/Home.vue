@@ -2,7 +2,8 @@
   <el-container>
     <el-header>
       <el-row>
-        <el-col :offset="23">
+        <el-col :offset="21">
+          <el-button type="text" class="advancedSearch" @click="advancedDialog = true">高级搜索</el-button>
           <el-dropdown style="margin-top: 15px;">
             <span class="el-dropdown-link">
               <i class="el-icon-more el-icon--right"></i>
@@ -24,38 +25,14 @@
       </el-row>
       <el-row justify="space-around" class="search">
         <el-col :span="16" :offset="4">
-          <el-tabs v-model="tabsActiveName" class="searchTabs">
-            <el-tab-pane label="简单搜索" name="simple">
-              <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select">
-                <el-select v-model="simple.browser" slot="prepend" placeholder="请选择">
-                  <el-option label="百度" value="baidu"></el-option>
-                  <el-option label="谷歌" value="google"></el-option>
-                  <el-option label="必应" value="bing"></el-option>
-                </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
-              </el-input>
-            </el-tab-pane>
-            <el-tab-pane label="高级搜索" name="advanced">
-              <el-input placeholder="请输入搜索内容" v-model="advanced.searchText" class="input-with-select">
-                <el-select v-model="advanced.browser" slot="prepend" placeholder="请选择">
-                  <el-option label="百度" value="baidu"></el-option>
-                  <el-option label="谷歌" value="google"></el-option>
-                  <el-option label="必应" value="bing"></el-option>
-                </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
-              </el-input>
-              <div class="timePicker">
-                <span class="demonstration">时间段：</span>
-                <el-date-picker
-                  v-model="advanced.date"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
+          <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select">
+            <el-select v-model="simple.browser" slot="prepend" placeholder="请选择">
+              <el-option label="百度" value="baidu"></el-option>
+              <el-option label="谷歌" value="google"></el-option>
+              <el-option label="必应" value="bing"></el-option>
+            </el-select>
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
           <div class="keywords">
             <el-tag>标签一</el-tag>
             <el-tag>标签一</el-tag>
@@ -64,6 +41,73 @@
           </div>
         </el-col>
       </el-row>
+      <el-dialog
+        title="高级搜索"
+        :visible.sync="advancedDialog"
+        width="80%">
+        <div style="width:70%;display:inline-block">
+          <el-row style="margin-bottom:15px;">
+            <el-col>
+              <span style="width:170px;display:inline-block">包含以下全部的关键词：</span>
+              <el-input style="width:70%" v-model="advanced.allKeys"></el-input>
+            </el-col>
+          </el-row>
+          <el-row style="margin-bottom:15px;">
+            <el-col>
+              <span style="width:170px;display:inline-block">包含以下的完整关键词：</span>
+              <el-input style="width:70%" v-model="advanced.completedKeys"></el-input>
+            </el-col>
+          </el-row>
+          <el-row style="margin-bottom:15px;">
+            <el-col>
+              <span style="width:170px;display:inline-block">包含以下任意一个关键词：</span>
+              <el-input style="width:70%" v-model="advanced.arbitKeys"></el-input>
+            </el-col>
+          </el-row>
+          <el-row style="margin-bottom:15px;">
+            <el-col>
+              <span style="width:170px;display:inline-block">不包括以下关键词：</span>
+              <el-input style="width:70%" v-model="advanced.exKeys"></el-input>
+            </el-col>
+          </el-row>
+          <el-row style="margin-bottom:15px;">
+            <el-col>
+              <span style="width:170px;display:inline-block">站内搜索：</span>
+              <el-input style="width:70%" v-model="advanced.website"></el-input>
+            </el-col>
+          </el-row>      
+          <div class="timePicker">
+            <span style="width:170px;display:inline-block" class="demonstration">时间段：</span>
+            <el-date-picker
+              v-model="advanced.date"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width:70%">
+            </el-date-picker>
+          </div>    
+        </div>
+        <div  style="width:28%;display:inline-block">
+          <div class="modalKeys">
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>            
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="advancedDialog = false">高级搜索</el-button>
+        </span>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>
@@ -77,12 +121,15 @@ export default {
         browser: '',
       },
       advanced: {
-        searchText: '',
+        allKeys: '',
+        completedKeys: '',
+        arbitKeys: '',
+        exKeys: '',
+        website: '',
         browser: '',
         date: ''
       },
-      tabsActiveName: 'simple',
-      inputVisible: false
+      advancedDialog: true
     }
   }
 }
@@ -91,9 +138,6 @@ export default {
 <style scoped>
 .search{
   margin-top: 25px;
-}
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
 }
 .input-with-select{
   margin-bottom: 30px;
@@ -120,7 +164,16 @@ export default {
 }
 .timePicker{
   text-align: left;
-  margin-top: 35px;
   margin-bottom: 20px;
+}
+.advancedSearch{
+  font-size: 15px;
+  margin-right: 25px;
+  cursor: pointer;
+}
+.modalKeys{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 </style>
