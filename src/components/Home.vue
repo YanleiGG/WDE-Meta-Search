@@ -26,7 +26,7 @@
       <el-row justify="space-around" class="search">
         <el-col :span="16" :offset="4">
           <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select">
-            <el-select v-model="simple.browser" slot="prepend" placeholder="搜索引擎">
+            <el-select v-model="simple.browser" slot="prepend" placeholder="搜索引擎" multiple  :collapse-tags='true'>
               <el-option label="百度" value="baidu"></el-option>
               <el-option label="谷歌" value="google"></el-option>
               <el-option label="必应" value="bing"></el-option>
@@ -129,7 +129,7 @@ export default {
     return {
       simple: {
         searchText: '',
-        browser: '',
+        browser: [],
       },
       advanced: {
         allKeys: '',
@@ -137,7 +137,7 @@ export default {
         arbitKeys: '',
         exKeys: '',
         website: '',
-        browser: '',
+        browser: [],
         date: ''
       },
       advancedDialog: false
@@ -191,5 +191,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+.el-select .el-input{
+  width: 150px;
+}
+.el-select__tags{
+  max-width: 150px;
 }
 </style>
