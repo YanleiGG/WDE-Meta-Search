@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import KeywordsManage from '@/components/KeywordsManage'
 import Result from '@/components/Result'
+import TimeTaskManage from '@/components/TimeTaskManage'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/result',
       name: 'result',
       component: Result
+    },
+    {
+      path: '/manage/timeTask',
+      name: 'timeTaskManage',
+      component: TimeTaskManage
     }
   ]
 })

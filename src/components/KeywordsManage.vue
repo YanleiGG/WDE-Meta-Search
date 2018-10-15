@@ -21,7 +21,9 @@
               <el-dropdown-item>
                 <router-link to="/manage/keywords">关键词管理</router-link>
               </el-dropdown-item>
-              <el-dropdown-item>定时任务管理</el-dropdown-item>
+              <router-link to="/manage/timeTask">
+                <el-dropdown-item>定时任务管理</el-dropdown-item>
+              </router-link>
               <el-dropdown-item>采集统计</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

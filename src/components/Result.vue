@@ -22,7 +22,9 @@
               <router-link to="/manage/keywords">
                 <el-dropdown-item>关键词管理</el-dropdown-item>
               </router-link>
-              <el-dropdown-item>定时任务管理</el-dropdown-item>
+              <router-link to="/manage/timeTask">
+                <el-dropdown-item>定时任务管理</el-dropdown-item>
+              </router-link>
               <el-dropdown-item>采集统计</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -35,6 +37,16 @@
         width="80%">
         <el-row>
           <el-col :span="15">
+            <el-row style="margin-bottom:15px;">
+              <el-col>
+                <span style="width:170px;display:inline-block">搜索引擎：</span>
+                <el-select class="browserSelect" v-model="advanced.browser" multiple>
+                  <el-option label="百度" value="baidu"></el-option>
+                  <el-option label="谷歌" value="google"></el-option>
+                  <el-option label="必应" value="bing"></el-option>
+                </el-select>
+              </el-col>
+            </el-row>
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">包含以下全部的关键词：</span>
@@ -99,7 +111,7 @@
             <el-col :span="6" class="keyword">
               <el-tag>标签一</el-tag>
             </el-col>          
-          </el-col>          
+          </el-col>   
         </el-row>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="advancedDialog = false">高级搜索</el-button>
@@ -270,7 +282,7 @@ export default {
   }
 }
 </script>
-<style scope>
+<style scoped>
 .search{
   margin-top: 15px;
 }

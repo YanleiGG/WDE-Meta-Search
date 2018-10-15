@@ -28,6 +28,12 @@ a{
   background-color: #fff;
 }
 .el-select .el-input {
-  width: 130px;
+  width: 150px;
+}
+.browserSelect{
+  width: 70%;
+}
+.browserSelect .el-input{
+  width: 100%;
 }
 </style>

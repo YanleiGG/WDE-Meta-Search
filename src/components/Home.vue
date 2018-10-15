@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <el-row>
-        <el-col :offset="21">
+        <el-col :offset="21" :span="3">
           <el-button type="text" class="advancedSearch" @click="advancedDialog = true">高级搜索</el-button>
           <el-dropdown style="margin-top: 15px;">
             <span class="el-dropdown-link">
@@ -12,7 +12,9 @@
               <router-link to="/manage/keywords">
                 <el-dropdown-item>关键词管理</el-dropdown-item>
               </router-link>
-              <el-dropdown-item>定时任务管理</el-dropdown-item>
+              <router-link to="/manage/timeTask">
+                <el-dropdown-item>定时任务管理</el-dropdown-item>
+              </router-link>
               <el-dropdown-item>采集统计</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -46,9 +48,20 @@
       <el-dialog
         title="高级搜索"
         :visible.sync="advancedDialog"
-        width="80%">
+        width="80%"
+        style="margin-top:-5vh">
         <el-row>
           <el-col :span="15">
+            <el-row style="margin-bottom:15px;">
+              <el-col>
+                <span style="width:170px;display:inline-block">搜索引擎：</span>
+                <el-select class="browserSelect" v-model="advanced.browser" multiple>
+                  <el-option label="百度" value="baidu"></el-option>
+                  <el-option label="谷歌" value="google"></el-option>
+                  <el-option label="必应" value="bing"></el-option>
+                </el-select>
+              </el-col>
+            </el-row>
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">包含以下全部的关键词：</span>
@@ -197,5 +210,9 @@ export default {
 }
 .el-select__tags{
   max-width: 150px;
+}
+.keyword{
+  margin-bottom:10px;
+  cursor: pointer;
 }
 </style>
