@@ -34,7 +34,8 @@
       <el-dialog
         title="高级搜索"
         :visible.sync="advancedDialog"
-        width="80%">
+        width="80%"
+        :collapse-tags='true'>
         <el-row>
           <el-col :span="15">
             <el-row style="margin-bottom:15px;">
@@ -50,25 +51,25 @@
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">包含以下全部的关键词：</span>
-                <el-input style="width:70%" v-model="advanced.allKeys"></el-input>
+                <el-input style="width:70%" v-model="advanced.allKeys" id="allKeys" @focus="selectedInputId='allKeys'"></el-input>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">包含以下的完整关键词：</span>
-                <el-input style="width:70%" v-model="advanced.completedKeys"></el-input>
+                <el-input style="width:70%" v-model="advanced.completedKeys" id="completedKeys" @focus="selectedInputId='completedKeys'"></el-input>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">包含以下任意一个关键词：</span>
-                <el-input style="width:70%" v-model="advanced.arbitKeys"></el-input>
+                <el-input style="width:70%" v-model="advanced.arbitKeys" id="arbitKeys" @focus="selectedInputId='arbitKeys'"></el-input>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:15px;">
               <el-col>
                 <span style="width:170px;display:inline-block">不包括以下关键词：</span>
-                <el-input style="width:70%" v-model="advanced.exKeys"></el-input>
+                <el-input style="width:70%" v-model="advanced.exKeys" id="exKeys" @focus="selectedInputId='exKeys'"></el-input>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:15px;">
@@ -91,26 +92,35 @@
           </el-col>
           <el-col :span="7" :offset="1">
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
-            </el-col>     
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
+            </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
-            </el-col>    
-            <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
-            </el-col>          
+              <span @click='tagAdvancedClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
+            </el-col>
           </el-col>   
         </el-row>
         <span slot="footer" class="dialog-footer">
@@ -232,25 +242,39 @@
         <el-col :span="7" :offset="1">
           <el-row justify="space-around">
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
             <el-col :span="6" class="keyword">
-              <el-tag>标签一</el-tag>
+              <span @click='tagClick("标签一")'>
+                <el-tag>标签一</el-tag>
+              </span>
             </el-col>
           </el-row>
         </el-col>
@@ -277,7 +301,16 @@ export default {
       },
       advancedDialog: false,
       activeNames: ['','','','','','','','','','','','','',''],
-      results: []
+      results: [],
+      selectedInputId: ''
+    }
+  },
+  methods: {
+    tagClick(content) {
+      this.simple.searchText += ' ' + content
+    },
+    tagAdvancedClick(content) {
+      this.advanced[this.selectedInputId] += ' ' + content
     }
   }
 }

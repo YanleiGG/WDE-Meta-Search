@@ -24,7 +24,9 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <el-dropdown-item>采集统计</el-dropdown-item>
+              <router-link to="/manage/collect">
+                <el-dropdown-item>采集统计</el-dropdown-item>
+              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>

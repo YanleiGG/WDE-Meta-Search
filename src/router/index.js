@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import KeywordsManage from '@/components/KeywordsManage'
 import Result from '@/components/Result'
 import TimeTaskManage from '@/components/TimeTaskManage'
+import Collect from '@/components/collect'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/manage/timeTask',
       name: 'timeTaskManage',
       component: TimeTaskManage
+    },
+    {
+      path: '/manage/collect',
+      name: 'collect',
+      component: Collect
     }
   ]
 })
