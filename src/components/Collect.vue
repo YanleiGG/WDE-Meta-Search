@@ -32,19 +32,32 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="margin:50px">    
+    <el-main style="margin:50px">
+      <el-row>
+        <main-result></main-result>
+        <el-col :span="5" :offset="3">
+          <el-row class="collectMsg">任务执行次数： {{ 12 }}</el-row>
+          <el-row class="collectMsg">总采集量： {{ 123 }}</el-row>
+          <el-row class="collectMsg">去重后的采集量： {{ 111 }}</el-row>
+        </el-col>
+      </el-row>
     </el-main>
   </el-container>
 </template>
 <script>
+import MainResult from './MainResult.vue'
+
 export default {
+  components: {
+    'main-result': MainResult
+  },
   data() {
     return {
       activeIndex: '1'
     }
   },
   methods: {
-  } 
+  }
 }
 </script>
 <style scope>
@@ -65,5 +78,10 @@ export default {
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   display: inline-block;
   margin: 15px 30px;
+}
+.collectMsg{
+  margin-top:10px;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 </style>
