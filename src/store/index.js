@@ -9,8 +9,8 @@ export default new Vuex.Store({
     simpleBrowsers: ['百度', '必应'],
     advancedBrowsers: ['百度', '必应', '谷歌'],
     results: [],
+    keywords: [],
     resultPageQuery: '',
-    keywords: []
   },
   mutations: {
     setSimpleBrowsers (state, { simpleBrowsers }) {

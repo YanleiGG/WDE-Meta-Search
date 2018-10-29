@@ -37,7 +37,6 @@
           </el-select>
           <el-button slot="append" icon="el-icon-search" @click="simpleSearch">
           </el-button>
-          <router-link to="/result" id="toResult"></router-link>
           </el-input>
           <div class="keywords">
             <span @click='tagClick("标签一")'>
@@ -188,6 +187,7 @@ export default {
       'setKeywords'
     ]),
     async simpleSearch() {
+      this.$router.push({path: '/result'})
       return
       let res = await axios.post(`${this.path}/search/crawllist`, {
         query: this.simple.searchText,
@@ -197,9 +197,9 @@ export default {
       let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
       this.setResults({ results: res2.data.gather_list })
       this.setResultPageQuery({ resultPageQuery: this.simple.searchText })
-      document.getElementById('toResult').click()
     },
     async advancedSearch() {
+      this.$router.push({path: '/result'})
       this.advancedDialog = false
       return
       let start_time = moment(this.advanced.datetime[0]).unix()
@@ -216,7 +216,6 @@ export default {
       let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
       this.setResults({ results: res2.data.gather_list })
       this.setResultPageQuery({ resultPageQuery: query })
-      document.getElementById('toResult').click()
     },
     tagClick(content) {
       this.simple.searchText += ' ' + content
@@ -231,6 +230,7 @@ export default {
       simpleBrowsers: state => state.simpleBrowsers,
       advancedBrowsers: state => state.advancedBrowsers,
       keywords: state => state.keywords,
+      resultPageQuery: state => state.resultPageQuery,
     }),  
   },
   async created() {

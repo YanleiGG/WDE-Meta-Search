@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import store from './store'
+
 export default {
-  name: 'App'
+  name: 'App',
+  store
 }
 </script>
 
@@ -38,5 +41,12 @@ a{
 }
 .el-dialog{
   margin-top: 10vh !important;
+}
+.keyword{
+  margin-bottom:10px;
+  cursor: pointer;
+}
+.el-collapse-item__content{
+  padding-bottom: 15px;
 }
 </style>

@@ -53,7 +53,7 @@
           <div>
             <span style="width:70px;display:inline-block">任务ID：</span>
             <el-input style="width:70%" v-model="taskId"></el-input>
-            <el-button style="margin-left:20px" type="primary">查询</el-button>
+            <el-button style="margin-left:20px" type="primary" @click="queryTask">查询</el-button>
           </div>
         </el-col>
       </el-row>
@@ -76,6 +76,9 @@
   </el-container>
 </template>
 <script>
+import axios from 'axios'
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -89,17 +92,38 @@ export default {
     handleSelect(key, keyPath) {
       this.activeIndex = key
     },
-    createTask() {
+    async createTask() {
       const h = this.$createElement
       let errMsg = ""
       if (typeof(this.time) !== 'number') errMsg = '执行策略必须为数字！'
       if (this.time === '') errMsg = '执行策略不能为空！'
       if (this.searchText === '') errMsg = '搜索内容不能为空！'
-      this.$message({
-        message: h('p', null, [
-          h('span', null, errMsg)
-        ])
-      })      
+      if (!errMsg) {
+        return this.$message({
+          message: h('p', null, [
+            h('span', null, errMsg)
+          ])
+        })
+      }
+      let res = await axios.post(`${this.path}/timing/search`, {
+        query: this.searchText,
+        hours: Number(time)
+      })
+      let id = res.data
+      this.$alert(`任务ID:${id}`, '创建成功', {
+        confirmButtonText: '确定',
+      })
+    },
+    async queryTask() {
+      const h = this.$createElement
+      if (this.taskId==='') {
+        return this.$message({
+          message: h('p', null, [
+            h('span', null, '任务ID不能为空!')
+          ])
+        })
+      }
+      let res = await axios.get(`${this.path}/search/getlist?task_id=${this.taskId}`)
     }
   }
 }
