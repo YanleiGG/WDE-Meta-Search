@@ -92,6 +92,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setKeywords'
+    ]),
     handleClose(index) {
       this.dynamicTags[index].deletePop = true
     },
@@ -100,6 +103,9 @@ export default {
       let res = await axios.post(`${this.path}/query/remove`, { query })
       // 这里还需要根据实际header判断是否删除成功
       this.dynamicTags.splice(index, 1);
+      // 更新keywords
+      let res2 = await axios.get(`${this.path}/query/get`)
+      this.setKeywords({ keywords: res2.data.querys })
     },
     showInput() {
       this.inputVisible = true;
@@ -116,6 +122,9 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
+      // 更新keywords
+      let res2 = await axios.get(`${this.path}/query/get`)
+      this.setKeywords({ keywords: res2.data.querys })
     }
   },
   computed: {
