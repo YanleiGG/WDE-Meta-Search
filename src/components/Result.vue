@@ -2,7 +2,7 @@
   <el-container class="resultPage">
     <el-header class="searchHeader">
       <el-row justify="space-around" class="search">
-        <el-col :span="13" :offset="1">
+        <el-col :span="14" :offset="1">
           <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select">
             <el-select style="width:150px" v-model="simple.browser" slot="prepend" placeholder="搜索引擎" multiple :collapse-tags='true'>
               <el-option label="百度" value="baidu"></el-option>
@@ -12,7 +12,7 @@
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="3" :offset="7">
+        <el-col :span="3" :offset="6">
           <el-button type="text" class="advancedSearch" @click="advancedDialog = true">高级搜索</el-button>
           <el-dropdown style="margin-top: 5px;">
             <span class="el-dropdown-link">
@@ -25,7 +25,9 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <el-dropdown-item>采集统计</el-dropdown-item>
+              <router-link to="/manage/collect">
+                <el-dropdown-item>采集统计</el-dropdown-item>
+              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -130,7 +132,7 @@
     </el-header>
     <el-main>
       <el-row>
-        <el-col :span="14" :offset="1">
+        <el-col :span="14" :offset="1" v-loading="loading">
           <div class="result">
             <el-collapse v-model="activeNames[0]" style="margin-bottom: 30px">
               <el-collapse-item name="1">
@@ -302,7 +304,8 @@ export default {
       advancedDialog: false,
       activeNames: ['','','','','','','','','','','','','',''],
       results: [],
-      selectedInputId: ''
+      selectedInputId: '',
+      loading: false
     }
   },
   methods: {

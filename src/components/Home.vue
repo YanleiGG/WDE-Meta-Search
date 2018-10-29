@@ -35,9 +35,9 @@
             <el-option label="谷歌" value="google"></el-option>
             <el-option label="必应" value="bing"></el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search" @click="toResult">
-            <router-link to="/result" id="toResult"></router-link>
+          <el-button slot="append" icon="el-icon-search" @click="simpleSearch">
           </el-button>
+          <router-link to="/result" id="toResult"></router-link>
           </el-input>
           <div class="keywords">
             <span @click='tagClick("标签一")'>
@@ -105,8 +105,8 @@
             <div class="timePicker">
               <span style="width:170px;display:inline-block" class="demonstration">时间段：</span>
               <el-date-picker
-                v-model="advanced.date"
-                type="daterange"
+                v-model="advanced.datetime"
+                type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -148,7 +148,7 @@
           </el-col>   
         </el-row>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="advancedDialog = false">高级搜索</el-button>
+          <el-button type="primary" @click="advancedSearch" >高级搜索</el-button>
         </span>
       </el-dialog>
     </el-main>
@@ -156,6 +156,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+import moment from 'moment'
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   data () {
     return {
@@ -170,13 +174,48 @@ export default {
         exKeys: '',
         website: '',
         browser: [],
-        date: ''
+        datetime: ''
       },
       advancedDialog: false
     }
   },
   methods: {
-    toResult() {
+    ...mapMutations([
+      'setSimpleBrowsers',
+      'setAdvancedBrowsers',
+      'setResults',
+      'setResultPageQuery',
+      'setKeywords'
+    ]),
+    async simpleSearch() {
+      return
+      let res = await axios.post(`${this.path}/search/crawllist`, {
+        query: this.simple.searchText,
+        se: this.simple.browser
+      })
+      let id = res.data
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
+      this.setResults({ results: res2.data.gather_list })
+      this.setResultPageQuery({ resultPageQuery: this.simple.searchText })
+      document.getElementById('toResult').click()
+    },
+    async advancedSearch() {
+      this.advancedDialog = false
+      return
+      let start_time = moment(this.advanced.datetime[0]).unix()
+      let end_time = moment(this.advanced.datetime[1]).unix()
+      let query = `${this.advanced.allKeys}&${this.advanced.completedKeys}|${this.advanced.arbitKeys}!${this.advanced.exKeys}`
+      let res = await axios.post(`${this.path}/search/crawllist_advanced`, {
+        query,
+        se: this.advanced.browser,
+        site: this.advanced.website,
+        start_time,
+        end_time
+      })
+      let id = res.data
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
+      this.setResults({ results: res2.data.gather_list })
+      this.setResultPageQuery({ resultPageQuery: query })
       document.getElementById('toResult').click()
     },
     tagClick(content) {
@@ -185,6 +224,25 @@ export default {
     tagAdvancedClick(content) {
       this.advanced[this.selectedInputId] += ' ' + content
     }
+  },
+  computed: {
+    ...mapState({
+      path: state => state.path,
+      simpleBrowsers: state => state.simpleBrowsers,
+      advancedBrowsers: state => state.advancedBrowsers,
+    }),  
+  },
+  async created() {
+    return
+    // 获取通用搜索引擎
+    let res = await axios.get(`${this.path}/se/totalse`)
+    this.setSimpleBrowsers({ simpleBrowsers: res.data.se })
+    // 获取高级搜索引擎
+    let res2 = await axios.get(`${this.path}/se/advancedse`)
+    this.setAdvancedBrowsers({ advancedBrowsers: res2.data.se })
+    // 获取关键词
+    let res3 = await axios.get(`${this.path}/query/get`)
+    this.setKeywords({ keywords: res3.data.querys })
   }
 }
 </script>

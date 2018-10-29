@@ -36,4 +36,7 @@ a{
 .browserSelect .el-input{
   width: 100%;
 }
+.el-dialog{
+  margin-top: 10vh !important;
+}
 </style>
