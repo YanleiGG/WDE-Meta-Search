@@ -68,6 +68,9 @@
   </el-container>
 </template>
 <script>
+import axios from 'axios'
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -89,27 +92,38 @@ export default {
     }
   },
   methods: {
-      handleClose(index) {
-        this.dynamicTags[index].deletePop = true
-      },
-      deleteTag(index) {
-        this.dynamicTags.splice(index, 1);
-      },
-      showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
-      },
-      handleInputConfirm() {
-        let inputValue = this.inputValue;
-        if (inputValue) {
-          this.dynamicTags.push({ name: inputValue, deletePop: false });
-        }
-        this.inputVisible = false;
-        this.inputValue = '';
-      }    
-  }
+    handleClose(index) {
+      this.dynamicTags[index].deletePop = true
+    },
+    async deleteTag(index) {
+      let query = this.dynamicTags[index].name
+      let res = await axios.post(`${this.path}/query/remove`, { query })
+      // 这里还需要根据实际header判断是否删除成功
+      this.dynamicTags.splice(index, 1);
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    async handleInputConfirm() {
+      let inputValue = this.inputValue;
+      let res = await axios.post(`${this.path}/query/add`,{ query: inputValue })
+      // 这里还需要根据实际header判断是否添加成功
+      if (inputValue) {
+        this.dynamicTags.push({ name: inputValue, deletePop: false });
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    }
+  },
+  computed: {
+    ...mapState({
+      path: state => state.path,
+      keywords: state => state.keywords,
+    }),  
+  },
 }
 </script>
 <style scope>

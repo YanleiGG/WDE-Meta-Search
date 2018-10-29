@@ -230,6 +230,7 @@ export default {
       path: state => state.path,
       simpleBrowsers: state => state.simpleBrowsers,
       advancedBrowsers: state => state.advancedBrowsers,
+      keywords: state => state.keywords,
     }),  
   },
   async created() {
