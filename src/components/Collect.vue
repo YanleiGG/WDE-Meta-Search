@@ -36,9 +36,14 @@
       <el-row>
         <main-result></main-result>
         <el-col :span="5" :offset="3">
-          <el-row class="collectMsg">任务执行次数： {{ 12 }}</el-row>
-          <el-row class="collectMsg">总采集量： {{ 123 }}</el-row>
-          <el-row class="collectMsg">去重后的采集量： {{ 111 }}</el-row>
+          <el-card shadow="hover">
+            <el-row class="collectMsg">任务执行次数： {{ 12 }}</el-row>
+            <el-row class="collectMsg">总采集量： {{ 123 }}</el-row>
+            <el-row class="collectMsg">去重后的采集量： {{ 111 }}</el-row>
+            <el-row>
+              <el-button type="danger" style="width:100%" @click="stopTask">停止任务</el-button>
+            </el-row>
+          </el-card>
         </el-col>
       </el-row>
     </el-main>
@@ -57,6 +62,15 @@ export default {
     }
   },
   methods: {
+    stopTask() {
+        this.$confirm('确定停止该任务吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+        })
+    }
   }
 }
 </script>

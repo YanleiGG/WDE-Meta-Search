@@ -65,7 +65,7 @@
           <span style="display:inline-block;width:40px"></span>
           <br/>
           <span  class="inputTitle">执行策略：</span>
-          <el-input-number style="width:70%"  v-model="time" :min="0"></el-input-number>
+          <el-input-number style="width:70%" v-model="time" :min="1"></el-input-number>
           <span style="display:inline-block;width:40px">小时</span>
           <br/>
           <el-button style="margin-left:80px" type="primary" @click="createTask">创建</el-button>
@@ -98,7 +98,7 @@ export default {
       if (typeof(this.time) !== 'number') errMsg = '执行策略必须为数字！'
       if (this.time === '') errMsg = '执行策略不能为空！'
       if (this.searchText === '') errMsg = '搜索内容不能为空！'
-      if (!errMsg) {
+      if (errMsg) {
         return this.$message({
           message: h('p', null, [
             h('span', null, errMsg)
@@ -107,7 +107,7 @@ export default {
       }
       let res = await axios.post(`${this.path}/timing/search`, {
         query: this.searchText,
-        hours: Number(time)
+        hours: Number(this.time)
       })
       let id = res.data
       this.$alert(`任务ID:${id}`, '创建成功', {
