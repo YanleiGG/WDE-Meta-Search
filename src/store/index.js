@@ -11,6 +11,9 @@ export default new Vuex.Store({
     results: [],
     keywords: [],
     resultPageQuery: '',
+    task: {},
+    detail: {},
+    taskId: ''
   },
   mutations: {
     setSimpleBrowsers (state, { simpleBrowsers }) {
@@ -27,6 +30,15 @@ export default new Vuex.Store({
     },
     setKeywords(state, { keywords }) {
       state.keywords = keywords
-    }
+    },
+    setTask(state, { task }) {
+      state.task = task
+    },
+    setDetail(state, { detail }) {
+      state.detail = detail
+    },
+    setTaskId(state, { taskId }) {
+      state.taskId = taskId
+    },
   }
 })

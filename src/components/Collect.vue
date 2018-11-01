@@ -32,7 +32,7 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="margin:50px">
+    <el-main style="margin:15px">
       <el-row>
         <main-result></main-result>
         <el-col :span="5" :offset="3">
@@ -51,6 +51,8 @@
 </template>
 <script>
 import MainResult from './MainResult.vue'
+import { mapMutations, mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
   components: {
@@ -67,10 +69,22 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => {
-          
+        }).then(async () => {
+          // let res = await axios.get(`${this.path}/timing/stop?task_id=${this.taskId}`)
+          // 根据header判断状态
+          this.$notify({
+            title: '停止成功',
+            message: `任务ID：${this.taskId}`,
+            type: 'success'
+          })
         })
     }
+  },
+  computed: {
+    ...mapState({
+      task: state => state.task,
+      taskId: state => state.taskId,
+    }), 
   }
 }
 </script>

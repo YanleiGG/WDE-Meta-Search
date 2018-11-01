@@ -85,8 +85,18 @@
   </el-container>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
+
 export default {
-  
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapState({
+      path: state => state.path,
+      detail: state => state.detail
+    }),  
+  }
 }
 </script>
 <style scoped>

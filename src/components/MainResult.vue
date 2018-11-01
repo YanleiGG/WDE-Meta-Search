@@ -4,7 +4,9 @@
       <el-collapse v-model="activeNames[0]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
           <div>
             百度：第 <span style="font-weight:bold">{{1}}</span> 位
@@ -15,63 +17,81 @@
       <el-collapse v-model="activeNames[1]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[2]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[3]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[4]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[5]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[6]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[7]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[8]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>
       <el-collapse v-model="activeNames[9]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
-            <a href="" class="link">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</a>
+            <div>
+              <span class="link" @click="toDetail">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</span>
+            </div>
           </template>
         </el-collapse-item>
       </el-collapse>            
@@ -85,6 +105,7 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
   data() {
@@ -93,7 +114,26 @@ export default {
       activeNames: ['','','','','','','','','','','','','',''],
     }
   },
+  methods: {
+    ...mapMutations([
+      'setDetail',
+    ]),
+    toDetail(source_url) {
+      console.log(1)
+      let res = axios.post(`${this.path}/search/details`, {
+        task_id: this.taskId,
+        source_url
+      })
+      this.setDetail({ detail: res.data })
+      this.$router.push({path: '/detail'})
+    }
+  },
   computed: { 
+    ...mapState({
+      path: state => state.path,
+      keywords: state => state.keywords,
+      taskId: state => state.taskId,
+    }),  
   },
 }
 </script>

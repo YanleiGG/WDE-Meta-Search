@@ -2,13 +2,13 @@
   <div>
     <el-row justify="space-around" class="search">
       <el-col :span="14" :offset="1">
-        <el-input placeholder="请输入搜索内容" v-model="resultPageQuery" class="input-with-select">
+        <el-input clearable placeholder="请输入搜索内容" v-model="resultPageQuery" class="input-with-select">
           <el-select style="width:150px" v-model="simple.browser" slot="prepend" placeholder="搜索引擎" multiple :collapse-tags='true'>
             <el-option label="百度" value="baidu"></el-option>
             <el-option label="谷歌" value="google"></el-option>
             <el-option label="必应" value="bing"></el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button slot="append" icon="el-icon-search" @click="simpleSearch"></el-button>
         </el-input>
       </el-col>
       <el-col :span="3" :offset="6">
@@ -52,42 +52,43 @@
           <el-row style="margin-bottom:15px;">
             <el-col>
               <span style="width:170px;display:inline-block">包含以下全部的关键词：</span>
-              <el-input style="width:70%" v-model="advanced.allKeys" id="allKeys" @focus="selectedInputId='allKeys'"></el-input>
+              <el-input clearable style="width:70%" v-model="advanced.allKeys" id="allKeys" @focus="selectedInputId='allKeys'"></el-input>
             </el-col>
           </el-row>
           <el-row style="margin-bottom:15px;">
             <el-col>
               <span style="width:170px;display:inline-block">包含以下的完整关键词：</span>
-              <el-input style="width:70%" v-model="advanced.completedKeys" id="completedKeys" @focus="selectedInputId='completedKeys'"></el-input>
+              <el-input clearable style="width:70%" v-model="advanced.completedKeys" id="completedKeys" @focus="selectedInputId='completedKeys'"></el-input>
             </el-col>
           </el-row>
           <el-row style="margin-bottom:15px;">
             <el-col>
               <span style="width:170px;display:inline-block">包含以下任意一个关键词：</span>
-              <el-input style="width:70%" v-model="advanced.arbitKeys" id="arbitKeys" @focus="selectedInputId='arbitKeys'"></el-input>
+              <el-input clearable style="width:70%" v-model="advanced.arbitKeys" id="arbitKeys" @focus="selectedInputId='arbitKeys'"></el-input>
             </el-col>
           </el-row>
           <el-row style="margin-bottom:15px;">
             <el-col>
               <span style="width:170px;display:inline-block">不包括以下关键词：</span>
-              <el-input style="width:70%" v-model="advanced.exKeys" id="exKeys" @focus="selectedInputId='exKeys'"></el-input>
+              <el-input clearable style="width:70%" v-model="advanced.exKeys" id="exKeys" @focus="selectedInputId='exKeys'"></el-input>
             </el-col>
           </el-row>
           <el-row style="margin-bottom:15px;">
             <el-col>
               <span style="width:170px;display:inline-block">站内搜索：</span>
-              <el-input style="width:70%" v-model="advanced.website"></el-input>
+              <el-input clearable style="width:70%" v-model="advanced.website"></el-input>
             </el-col>
           </el-row>   
           <div class="timePicker">
             <span style="width:170px;display:inline-block" class="demonstration">时间段：</span>
             <el-date-picker
               v-model="advanced.date"
-              type="daterange"
+              type="datetimerange"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              style="width:70%">
+              style="width:70%"
+              clearable>
             </el-date-picker>
           </div>           
         </el-col>
@@ -125,7 +126,7 @@
         </el-col>   
       </el-row>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="advancedDialog = false">高级搜索</el-button>
+        <el-button type="primary" @click="advancedSearch">高级搜索</el-button>
       </span>
     </el-dialog>    
   </div>
@@ -156,8 +157,42 @@ export default {
   methods: {
     ...mapMutations([
       'setResults',
-      'setResultPageQuery'
+      'setResultPageQuery',
+      'setTaskId'
     ]),
+    async simpleSearch() {
+      this.$router.push({path: '/result'})
+      return
+      let res = await axios.post(`${this.path}/search/crawllist`, {
+        query: this.simple.searchText,
+        se: this.simple.browser
+      })
+      let id = res.data
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setTaskId({ taskId: id })
+      this.setResults({ results: res2.data.gather_list })
+      this.setResultPageQuery({ resultPageQuery: this.simple.searchText })
+    },
+    async advancedSearch() {
+      this.$router.push({path: '/result'})
+      this.advancedDialog = false
+      return
+      let start_time = moment(this.advanced.datetime[0]).unix()
+      let end_time = moment(this.advanced.datetime[1]).unix()
+      let query = `${this.advanced.allKeys}&${this.advanced.completedKeys}|${this.advanced.arbitKeys}!${this.advanced.exKeys}`
+      let res = await axios.post(`${this.path}/search/crawllist_advanced`, {
+        query,
+        se: this.advanced.browser,
+        site: this.advanced.website,
+        start_time,
+        end_time
+      })
+      let id = res.data
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setTaskId({ taskId: id })
+      this.setResults({ results: res2.data.gather_list })
+      this.setResultPageQuery({ resultPageQuery: query })
+    },
     tagAdvancedClick(content) {
       this.advanced[this.selectedInputId] += ' ' + content
     }

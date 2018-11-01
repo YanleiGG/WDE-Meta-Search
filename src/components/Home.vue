@@ -29,7 +29,7 @@
       </el-row>
       <el-row justify="space-around" class="search">
         <el-col :span="16" :offset="4">
-          <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select">
+          <el-input placeholder="请输入搜索内容" v-model="simple.searchText" class="input-with-select" clearable>
           <el-select v-model="simple.browser" slot="prepend" placeholder="搜索引擎" multiple  :collapse-tags='true'>
             <el-option label="百度" value="baidu"></el-option>
             <el-option label="谷歌" value="google"></el-option>
@@ -184,7 +184,8 @@ export default {
       'setAdvancedBrowsers',
       'setResults',
       'setResultPageQuery',
-      'setKeywords'
+      'setKeywords',
+      'setTaskId'
     ]),
     async simpleSearch() {
       this.$router.push({path: '/result'})
@@ -194,7 +195,8 @@ export default {
         se: this.simple.browser
       })
       let id = res.data
-      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
       this.setResultPageQuery({ resultPageQuery: this.simple.searchText })
     },
@@ -213,7 +215,8 @@ export default {
         end_time
       })
       let id = res.data
-      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${this.id}`)
+      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
       this.setResultPageQuery({ resultPageQuery: query })
     },

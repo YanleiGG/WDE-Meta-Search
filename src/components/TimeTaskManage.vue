@@ -89,6 +89,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setTask',
+      'setTaskId'
+    ]),
     handleSelect(key, keyPath) {
       this.activeIndex = key
     },
@@ -123,7 +127,10 @@ export default {
           ])
         })
       }
-      let res = await axios.get(`${this.path}/search/getlist?task_id=${this.taskId}`)
+      // let res = await axios.get(`${this.path}/search/getlist?task_id=${this.taskId}`)
+      // this.setTask({ task: res.data })
+      this.setTaskId({ taskId: this.taskId })
+      this.$router.push({path: '/manage/collect'})
     }
   }
 }
