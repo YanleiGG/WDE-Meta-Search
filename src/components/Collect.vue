@@ -41,7 +41,7 @@
             <el-row class="collectMsg">总采集量： {{ 123 }}</el-row>
             <el-row class="collectMsg">去重后的采集量： {{ 111 }}</el-row>
             <el-row>
-              <el-button type="danger" style="width:100%" @click="stopTask">停止任务</el-button>
+              <el-button type="danger" style="width:100%" @click="stopTask" :loading="loading">停止任务</el-button>
             </el-row>
           </el-card>
         </el-col>
@@ -60,7 +60,8 @@ export default {
   },
   data() {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      loading: false
     }
   },
   methods: {
@@ -70,6 +71,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
+          this.loading = true
           // let res = await axios.get(`${this.path}/timing/stop?task_id=${this.taskId}`)
           // 根据header判断状态
           this.$notify({
@@ -77,7 +79,8 @@ export default {
             message: `任务ID：${this.taskId}`,
             type: 'success'
           })
-        })
+          this.loading = false
+        }).catch((err) => {})
     }
   },
   computed: {

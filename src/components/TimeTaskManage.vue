@@ -53,7 +53,7 @@
           <div>
             <span style="width:70px;display:inline-block">任务ID：</span>
             <el-input style="width:70%" v-model="taskId"></el-input>
-            <el-button style="margin-left:20px" type="primary" @click="queryTask">查询</el-button>
+            <el-button style="margin-left:20px" type="primary" @click="queryTask" :loading='loading1'>查询</el-button>
           </div>
         </el-col>
       </el-row>
@@ -68,7 +68,7 @@
           <el-input-number style="width:70%" v-model="time" :min="1"></el-input-number>
           <span style="display:inline-block;width:40px">小时</span>
           <br/>
-          <el-button style="margin-left:80px" type="primary" @click="createTask">创建</el-button>
+          <el-button style="margin-left:80px" type="primary" @click="createTask" :loading="loading2">创建</el-button>
           <el-button type="primary">取消</el-button>
         </el-col>
       </el-row>
@@ -85,7 +85,9 @@ export default {
       activeIndex: '1',
       taskId: '',
       searchText: '',
-      time: ''
+      time: '',
+      loading1: false,
+      loading2: false
     }
   },
   methods: {
@@ -109,6 +111,7 @@ export default {
           ])
         })
       }
+      this.loading2 = true
       let res = await axios.post(`${this.path}/timing/search`, {
         query: this.searchText,
         hours: Number(this.time)
@@ -127,6 +130,7 @@ export default {
           ])
         })
       }
+      this.loading1 = true
       // let res = await axios.get(`${this.path}/search/getlist?task_id=${this.taskId}`)
       // this.setTask({ task: res.data })
       this.setTaskId({ taskId: this.taskId })

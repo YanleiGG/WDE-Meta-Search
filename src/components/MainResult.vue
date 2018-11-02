@@ -1,6 +1,6 @@
 <template>
-  <el-col :span="14" :offset="1" v-loading="loading">
-    <div class="result">
+  <el-col :span="14" :offset="1">
+    <div class="result" v-loading="loading">
       <el-collapse v-model="activeNames[0]" style="margin-bottom: 30px">
         <el-collapse-item name="1">
           <template slot="title">
@@ -119,7 +119,6 @@ export default {
       'setDetail',
     ]),
     toDetail(source_url) {
-      console.log(1)
       let res = axios.post(`${this.path}/search/details`, {
         task_id: this.taskId,
         source_url

@@ -215,7 +215,7 @@ export default {
         end_time
       })
       let id = res.data
-      let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      // let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
       this.setResultPageQuery({ resultPageQuery: query })
