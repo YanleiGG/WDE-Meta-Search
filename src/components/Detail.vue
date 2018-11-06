@@ -34,8 +34,8 @@
     </el-header>
     <el-main>
       <el-row>
-        <el-col :span="10" :offset="1">
-          <el-card shadow="hover">
+        <el-col :span="18" :offset="3">
+          <el-card shadow="never">
             <el-row class="collectMsg">
               <span class="detailTitle">文档标题：</span>
                {{ '文档标题文档标题文档标题文档标题文档标题' }}
@@ -70,10 +70,6 @@
                 <a href="" target="_blank" class="link left95px">{{ "http://www.baidu.com" }}</a>
               </span>
             </el-row>
-          </el-card>
-        </el-col>
-        <el-col :span="11" :offset="1">
-          <el-card shadow="hover">
             <el-row class="collectMsg">文档正文：</el-row>
             <el-row>
               There are already several excellent libraries with a functional flavor. Typically, they are meant to be general-purpose toolkits, suitable for working in multiple paradigms. Ramda has a more focused goal. We wanted a library designed specifically for a functional programming style, one that makes it easy to create functional pipelines, one that never mutates user data.
