@@ -182,7 +182,8 @@ export default {
       'setResultPageQuery',
       'setKeywords',
       'setTaskId',
-      'setResultLoading'
+      'setResultLoading',
+      'setTotalCount'
     ]),
     async simpleSearch() {
       if (this.simple.searchText=='') {
@@ -204,6 +205,7 @@ export default {
       this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
+      this.setTotalCount({ totalCount: res2.data.gather_list.length })
     },
     async advancedSearch() {
       let query = ''
@@ -236,6 +238,7 @@ export default {
       this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
+      this.setTotalCount({ totalCount: res2.data.gather_list.length })
     },
     tagClick(content) {
       this.simple.searchText += ' ' + content

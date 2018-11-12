@@ -158,7 +158,8 @@ export default {
       'setResults',
       'setResultPageQuery',
       'setTaskId',
-      'setResultLoading'
+      'setResultLoading',
+      'setTotalCount'
     ]),
     async simpleSearch() {
       this.simple.searchText = this.resultPageQuery
@@ -179,6 +180,7 @@ export default {
       this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
+      this.setTotalCount({ totalCount: res2.data.gather_list.length })
     },
     async advancedSearch() {
       let query = ''
@@ -211,6 +213,7 @@ export default {
       this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
+      this.setTotalCount({ totalCount: res2.data.gather_list.length })
     },
     tagAdvancedClick(content) {
       this.advanced[this.selectedInputId] += ' ' + content
