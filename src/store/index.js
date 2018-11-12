@@ -5,15 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    path: 'http://172.22.0.34:8080',
-    simpleBrowsers: ['百度', '必应'],
-    advancedBrowsers: ['百度', '必应', '谷歌'],
+    path: 'http://localhost:8080',
+    simpleBrowsers: [],
+    advancedBrowsers: [],
     results: [],
     keywords: [],
     resultPageQuery: '',
     task: {},
     detail: {},
-    taskId: ''
+    taskId: '',
+    resultLoading: true,
   },
   mutations: {
     setSimpleBrowsers (state, { simpleBrowsers }) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     setTaskId(state, { taskId }) {
       state.taskId = taskId
+    },
+    setResultLoading(state, { resultLoading }) {
+      state.resultLoading = resultLoading
     },
   }
 })

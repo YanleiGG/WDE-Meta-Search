@@ -117,9 +117,11 @@ export default {
         hours: Number(this.time)
       })
       let id = res.data
-      this.$alert(`任务ID:${id}`, '创建成功', {
+      this.$alert(`任务ID: ${id}`, '创建成功', {
         confirmButtonText: '确定',
+        type: 'success'
       })
+      this.loading2 = false
     },
     async queryTask() {
       const h = this.$createElement

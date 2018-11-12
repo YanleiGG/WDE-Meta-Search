@@ -4,9 +4,7 @@
       <el-col :span="14" :offset="1">
         <el-input clearable placeholder="请输入搜索内容" v-model="resultPageQuery" class="input-with-select">
           <el-select style="width:150px" v-model="simple.browser" slot="prepend" placeholder="搜索引擎" multiple :collapse-tags='true'>
-            <el-option label="百度" value="baidu"></el-option>
-            <el-option label="谷歌" value="google"></el-option>
-            <el-option label="必应" value="bing"></el-option>
+            <el-option v-for="item in simpleBrowsers" :key='item' :label="item" :value="item"></el-option>
           </el-select>
           <el-button slot="append" icon="el-icon-search" @click="simpleSearch"></el-button>
         </el-input>
@@ -133,6 +131,7 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
   data() {
@@ -158,28 +157,48 @@ export default {
     ...mapMutations([
       'setResults',
       'setResultPageQuery',
-      'setTaskId'
+      'setTaskId',
+      'setResultLoading'
     ]),
     async simpleSearch() {
-      this.$router.push({path: '/result'})
-      return
+      this.simple.searchText = this.resultPageQuery
+      if (this.simple.searchText=='') {
+        return this.$notify({
+          title: '警告',
+          message: '请输入搜索内容',
+          type: 'warning'
+        });
+      }
+      this.setResultLoading({ resultLoading: true })
       let res = await axios.post(`${this.path}/search/crawllist`, {
         query: this.simple.searchText,
         se: this.simple.browser
       })
       let id = res.data
       let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
-      this.setResultPageQuery({ resultPageQuery: this.simple.searchText })
     },
     async advancedSearch() {
+      let query = ''
+      if (this.advanced.allKeys!='') query +=this.advanced.allKeys
+      if (this.advanced.completedKeys!='') query += '&' + this.advanced.completedKeys
+      if (this.advanced.arbitKeys!='') query += '|' + this.advanced.arbitKeys
+      if (this.advanced.exKeys!='') query += '!' + this.advanced.exKeys
+      if (query=='') {
+        return this.$notify({
+          title: '警告',
+          message: '请输入搜索内容',
+          type: 'warning'
+        });
+      }
+      this.setResultLoading({ resultLoading: true })
+      this.setResultPageQuery({ resultPageQuery: query })
       this.$router.push({path: '/result'})
       this.advancedDialog = false
-      return
       let start_time = moment(this.advanced.datetime[0]).unix()
       let end_time = moment(this.advanced.datetime[1]).unix()
-      let query = `${this.advanced.allKeys}&${this.advanced.completedKeys}|${this.advanced.arbitKeys}!${this.advanced.exKeys}`
       let res = await axios.post(`${this.path}/search/crawllist_advanced`, {
         query,
         se: this.advanced.browser,
@@ -189,9 +208,9 @@ export default {
       })
       let id = res.data
       let res2 = await axios.get(`${this.path}/search/getlist?task_id=${id}`)
+      this.setResultLoading({ resultLoading: false })
       this.setTaskId({ taskId: id })
       this.setResults({ results: res2.data.gather_list })
-      this.setResultPageQuery({ resultPageQuery: query })
     },
     tagAdvancedClick(content) {
       this.advanced[this.selectedInputId] += ' ' + content
