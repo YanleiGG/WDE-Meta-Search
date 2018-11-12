@@ -16,7 +16,8 @@ export default new Vuex.Store({
     taskId: '',
     resultLoading: false,
     detailLoading: false,
-    totalCount: 0
+    totalCount: 0,
+    page: 1
   },
   mutations: {
     setSimpleBrowsers (state, { simpleBrowsers }) {
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     setDetailLoading(state, { detailLoading }) {
       state.detailLoading = detailLoading
+    },
+    setPage(state, { page }) {
+      state.page = page
     },
   }
 })

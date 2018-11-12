@@ -24,9 +24,6 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <router-link to="/manage/collect">
-                <el-dropdown-item>采集统计</el-dropdown-item>
-              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -37,9 +34,9 @@
         <main-result></main-result>
         <el-col :span="6" :offset="2">
           <el-card shadow="never">
-            <el-row class="collectMsg">任务执行次数： {{ 12 }}</el-row>
-            <el-row class="collectMsg">总采集量： {{ 123 }}</el-row>
-            <el-row class="collectMsg">去重后的采集量： {{ 111 }}</el-row>
+            <el-row class="collectMsg">任务执行次数： {{ task.exec_times }}</el-row>
+            <el-row class="collectMsg">总采集量： {{ task.res_nums }}</el-row>
+            <el-row class="collectMsg">去重后的采集量： {{ task.uniq_res }}</el-row>
             <el-row>
               <el-button type="danger" style="width:100%" @click="stopTask" :loading="loading">停止任务</el-button>
             </el-row>
@@ -72,8 +69,8 @@ export default {
           type: 'warning'
         }).then(async () => {
           this.loading = true
-          // let res = await axios.get(`${this.path}/timing/stop?task_id=${this.taskId}`)
-          // 根据header判断状态
+          let res = await axios.get(`${this.path}/timing/stop?task_id=${this.taskId}`)
+          // 根据header判断状态 (此处还未完善!!!!!!!)
           this.$notify({
             title: '停止成功',
             message: `任务ID：${this.taskId}`,
@@ -87,6 +84,7 @@ export default {
     ...mapState({
       task: state => state.task,
       taskId: state => state.taskId,
+      path: state => state.path
     }), 
   }
 }

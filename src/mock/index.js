@@ -126,4 +126,96 @@ Mock.mock('http://localhost:8080/search/details', () => {
   }
 })
 
+Mock.mock('http://localhost:8080/timing/search', () => {
+  return 'list_search_12312423512'
+})
+
+Mock.mock(/http:\/\/localhost:8080\/timing\/stats.*/, () => {
+  return {
+    "exec_times":5,
+    "res_nums":500,
+    "uniq_res":200,
+    "gather_list":[
+      {
+      "title":"aaa",
+      "source_url":"http://aaa.bbb.ccc",
+      "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"ffffff",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"ccccc",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+      "title":"aaa",
+      "source_url":"http://aaa.bbb.ccc",
+      "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"ggggggg",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"aaa",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+      "title":"hhhh",
+      "source_url":"http://aaa.bbb.ccc",
+      "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"aaa",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"yyyy",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+      "title":"6666",
+      "source_url":"http://aaa.bbb.ccc",
+      "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"a444aa",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      },
+      {
+        "title":"123",
+        "source_url":"http://aaa.bbb.ccc",
+        "se":{"baidu":1,"google":1,"bing":3}
+      }
+    ]
+  }
+})
+
+Mock.mock(/http:\/\/localhost:8080\/timing\/stop.*/, () => {
+  return null
+})
+
+Mock.mock('http://localhost:8080/query/get', () => {
+  return {
+    querys: ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg']
+  }
+})
+
+Mock.mock('http://localhost:8080/query/add', () => {
+  return null
+})
+
+Mock.mock('http://localhost:8080/query/remove', () => {
+  return null
+})
+
 export default Mock

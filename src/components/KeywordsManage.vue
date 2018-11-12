@@ -24,9 +24,6 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <router-link to="/manage/collect">
-                <el-dropdown-item>采集统计</el-dropdown-item>
-              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -59,8 +56,8 @@
         v-model="inputValue"
         ref="saveTagInput"
         size="small"
-        @keyup.enter.native="handleInputConfirm"
-        @blur="handleInputConfirm"
+        @keyup.enter.native="addTag"
+        @blur="addTag"
       >
       </el-input>
       <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加</el-button>      
@@ -75,20 +72,10 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      dynamicTags: [
-        { name: '标签一', deletePop: false },
-        { name: '标签二', deletePop: false },
-        { name: '标签三', deletePop: false },
-        { name: '标签四', deletePop: false },
-        { name: '标签五', deletePop: false },
-        { name: '标签六', deletePop: false },
-        { name: '标签七', deletePop: false },
-        { name: '标签八', deletePop: false },
-        { name: '标签九', deletePop: false },
-      ],
       inputVisible: false,
       inputValue: '',
-      deletePop: true
+      deletePop: true,
+      dynamicTags: []
     }
   },
   methods: {
@@ -101,7 +88,7 @@ export default {
     async deleteTag(index) {
       let query = this.dynamicTags[index].name
       let res = await axios.post(`${this.path}/query/remove`, { query })
-      // 这里还需要根据实际header判断是否删除成功
+      // 这里还需要根据实际header判断是否删除成功(暂时未完成！！！！！)
       this.dynamicTags.splice(index, 1);
       // 更新keywords
       let res2 = await axios.get(`${this.path}/query/get`)
@@ -113,10 +100,11 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-    async handleInputConfirm() {
+    async addTag() {
+      if (this.inputValue=='') return this.inputVisible = false
       let inputValue = this.inputValue;
       let res = await axios.post(`${this.path}/query/add`,{ query: inputValue })
-      // 这里还需要根据实际header判断是否添加成功
+      // 这里还需要根据实际header判断是否添加成功(暂时未完成！！！！！)
       if (inputValue) {
         this.dynamicTags.push({ name: inputValue, deletePop: false });
       }
@@ -131,8 +119,15 @@ export default {
     ...mapState({
       path: state => state.path,
       keywords: state => state.keywords,
-    }),  
+    }),
   },
+  async created() {
+    let res = await axios.get(`${this.path}/query/get`)
+    this.setKeywords({ keywords: res.data.querys })
+    this.dynamicTags = this.keywords.map(item => {
+      return { name: item, deletePop: false }
+    })
+  }
 }
 </script>
 <style scope>

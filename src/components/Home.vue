@@ -15,9 +15,6 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <router-link to="/manage/collect">
-                <el-dropdown-item>采集统计</el-dropdown-item>
-              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -37,17 +34,8 @@
           </el-button>
           </el-input>
           <div class="keywords">
-            <span @click='tagClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-            <span @click='tagClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-            <span @click='tagClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-            <span @click='tagClick("标签一")'>
-              <el-tag>标签一</el-tag>
+            <span v-for="(item, index) in keywords" :key="item+index" @click='tagClick(item)'>
+              <el-tag>{{ item }}</el-tag>
             </span>
           </div>
         </el-col>
@@ -110,34 +98,9 @@
             </div>           
           </el-col>
           <el-col :span="7" :offset="1">
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagAdvancedClick("标签一")'>
-                <el-tag>标签一</el-tag>
+            <el-col v-for="(item, index) in keywords" :key="item+index+'advanced'" :span="6" class="keyword">
+              <span @click='tagAdvancedClick(item)'>
+                <el-tag>{{ item }}</el-tag>
               </span>
             </el-col>
           </el-col>   
@@ -224,8 +187,11 @@ export default {
       this.setResultPageQuery({ resultPageQuery: query })
       this.$router.push({path: '/result'})
       this.advancedDialog = false
-      let start_time = moment(this.advanced.datetime[0]).unix()
-      let end_time = moment(this.advanced.datetime[1]).unix()
+      let start_time = '', end_time = ''
+      if (this.advanced.datetime!='') {
+        start_time = moment(this.advanced.datetime[0]).unix()
+        end_time = moment(this.advanced.datetime[1]).unix()
+      }
       let res = await axios.post(`${this.path}/search/crawllist_advanced`, {
         query,
         se: this.advanced.browser,
@@ -263,7 +229,6 @@ export default {
     // 获取高级搜索引擎
     let res2 = await axios.get(`${this.path}/se/advancedse`)
     this.setAdvancedBrowsers({ advancedBrowsers: res2.data.se })
-    return
     // 获取关键词
     let res3 = await axios.get(`${this.path}/query/get`)
     this.setKeywords({ keywords: res3.data.querys })

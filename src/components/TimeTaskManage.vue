@@ -38,9 +38,6 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <router-link to="/manage/collect">
-                <el-dropdown-item>采集统计</el-dropdown-item>
-              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -93,7 +90,10 @@ export default {
   methods: {
     ...mapMutations([
       'setTask',
-      'setTaskId'
+      'setTaskId',
+      'setResults',
+      'setPage',
+      'setTotalCount'
     ]),
     handleSelect(key, keyPath) {
       this.activeIndex = key
@@ -126,18 +126,27 @@ export default {
     async queryTask() {
       const h = this.$createElement
       if (this.taskId==='') {
-        return this.$message({
-          message: h('p', null, [
-            h('span', null, '任务ID不能为空!')
-          ])
-        })
+        return this.$notify({
+          title: '警告',
+          message: '任务ID不能为空!',
+          type: 'warning'
+        });
       }
       this.loading1 = true
-      // let res = await axios.get(`${this.path}/search/getlist?task_id=${this.taskId}`)
-      // this.setTask({ task: res.data })
+      let res = await axios.get(`${this.path}/timing/stats?task_id=${this.taskId}`)
+      this.setTask({ task: res.data })
       this.setTaskId({ taskId: this.taskId })
+      this.setResults({ results: res.data.gather_list })
+      this.setPage({ page: 1 })
+      this.setTotalCount({ totalCount: res.data.gather_list.length })
+      this.loading1 = false
       this.$router.push({path: '/manage/collect'})
     }
+  },
+  computed: {
+    ...mapState({
+      path: state => state.path,
+    }),
   }
 }
 </script>

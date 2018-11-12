@@ -8,39 +8,9 @@
         <main-result></main-result>
         <el-col :span="7" :offset="1">
           <el-row justify="space-around">
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
-              </span>
-            </el-col>
-            <el-col :span="6" class="keyword">
-              <span @click='tagClick("标签一")'>
-                <el-tag>标签一</el-tag>
+            <el-col :span="6" class="keyword" v-for="(item, index) in keywords" :key="item+index+'results'">
+              <span @click='tagClick(item)'>
+                <el-tag>{{item}}</el-tag>
               </span>
             </el-col>
           </el-row>

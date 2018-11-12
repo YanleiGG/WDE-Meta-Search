@@ -24,9 +24,6 @@
               <router-link to="/manage/timeTask">
                 <el-dropdown-item>定时任务管理</el-dropdown-item>
               </router-link>
-              <router-link to="/manage/collect">
-                <el-dropdown-item>采集统计</el-dropdown-item>
-              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -65,7 +62,7 @@
               <span style="inline-bolck;">
                 <template v-for="(item, index) in detail.lpic">
                   <a href="" target="_blank" class="link" :class='{ left95px: index!=0 }' :key="'lpic'+index">{{ item }}</a>
-                  <br :key="'lpic'+index">
+                  <br :key="'lpicbr'+index">
                 </template>
               </span>
             </el-row>

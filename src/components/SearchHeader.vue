@@ -22,9 +22,6 @@
             <router-link to="/manage/timeTask">
               <el-dropdown-item>定时任务管理</el-dropdown-item>
             </router-link>
-            <router-link to="/manage/collect">
-              <el-dropdown-item>采集统计</el-dropdown-item>
-            </router-link>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -80,7 +77,7 @@
           <div class="timePicker">
             <span style="width:170px;display:inline-block" class="demonstration">时间段：</span>
             <el-date-picker
-              v-model="advanced.date"
+              v-model="advanced.datetime"
               type="datetimerange"
               range-separator="至"
               start-placeholder="开始日期"
@@ -91,34 +88,9 @@
           </div>           
         </el-col>
         <el-col :span="7" :offset="1">
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-          </el-col>
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-          </el-col>
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-          </el-col>
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-          </el-col>
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
-            </span>
-          </el-col>
-          <el-col :span="6" class="keyword">
-            <span @click='tagAdvancedClick("标签一")'>
-              <el-tag>标签一</el-tag>
+          <el-col :span="6" class="keyword" v-for="(item, index) in keywords" :key="item+index+'header'">
+            <span @click='tagAdvancedClick(item)'>
+              <el-tag>{{item}}</el-tag>
             </span>
           </el-col>
         </el-col>   
@@ -132,6 +104,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   data() {
@@ -147,7 +120,7 @@ export default {
         exKeys: '',
         website: '',
         browser: [],
-        date: ''
+        datetime: ''
       },
       advancedDialog: false,
       selectedInputId: '',
@@ -199,8 +172,11 @@ export default {
       this.setResultPageQuery({ resultPageQuery: query })
       this.$router.push({path: '/result'})
       this.advancedDialog = false
-      let start_time = moment(this.advanced.datetime[0]).unix()
-      let end_time = moment(this.advanced.datetime[1]).unix()
+      let start_time = '', end_time = ''
+      if (this.advanced.datetime!='') {
+        start_time = moment(this.advanced.datetime[0]).unix()
+        end_time = moment(this.advanced.datetime[1]).unix()
+      }
       let res = await axios.post(`${this.path}/search/crawllist_advanced`, {
         query,
         se: this.advanced.browser,

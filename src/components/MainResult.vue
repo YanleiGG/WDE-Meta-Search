@@ -31,14 +31,14 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      activeNames: ['','','','','','','','','','','','','',''],
-      page: 1
+      activeNames: ['','','','','','','','','','','','','','']
     }
   },
   methods: {
     ...mapMutations([
       'setDetail',
-      'setDetailLoading'
+      'setDetailLoading',
+      'setPage'
     ]),
     async toDetail(source_url) {
       this.$router.push({path: '/detail'})
@@ -51,7 +51,7 @@ export default {
       this.setDetailLoading({ detailLoading: false })
     },
     pageChange(value) {
-      this.page = value
+      this.setPage({ page: value })
     },
   },
   computed: { 
@@ -61,7 +61,8 @@ export default {
       taskId: state => state.taskId,
       resultLoading: state => state.resultLoading,
       results: state => state.results,
-      totalCount: state => state.totalCount
+      totalCount: state => state.totalCount,
+      page: state => state.page,
     }),
     showResults() {
       return this.results.slice((this.page-1)*10, this.page*10)
