@@ -102,4 +102,28 @@ Mock.mock(/http:\/\/localhost:8080\/search\/getlist.*/, () => {
   }
 })
 
+Mock.mock('http://localhost:8080/search/details', () => {
+  return {
+    pt: '2012年12月3日 12:22:41',
+    nrd: 1255,
+    nrply: 13456,
+    url: 'http://localhost:8080/search/details',
+    title: '文档标题文档标题文档标题文档标题文档标题文档标题文档标题文档标题',
+    author: '作者一',
+    cont: 'There are already several excellent libraries with a functional flavor. Typically, they are meant to be general-purpose toolkits, suitable for working in multiple paradigms. Ramda has a more focused goal. We wanted a library designed specifically for a functional programming style, one that makes it easy to create functional pipelines, one that never mutates user data.',
+    lpic: [
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+      'http://localhost:8080/search/details',
+    ]
+  }
+})
+
 export default Mock

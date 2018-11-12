@@ -38,14 +38,17 @@ export default {
   methods: {
     ...mapMutations([
       'setDetail',
+      'setDetailLoading'
     ]),
-    toDetail(source_url) {
-      let res = axios.post(`${this.path}/search/details`, {
+    async toDetail(source_url) {
+      this.$router.push({path: '/detail'})
+      this.setDetailLoading({ detailLoading: true })
+      let res = await axios.post(`${this.path}/search/details`, {
         task_id: this.taskId,
         source_url
       })
       this.setDetail({ detail: res.data })
-      this.$router.push({path: '/detail'})
+      this.setDetailLoading({ detailLoading: false })
     },
     pageChange(value) {
       this.page = value

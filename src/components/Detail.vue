@@ -34,45 +34,44 @@
     </el-header>
     <el-main>
       <el-row>
-        <el-col :span="18" :offset="3">
+        <el-col :span="18" :offset="3" v-loading='detailLoading'>
           <el-card shadow="never">
             <el-row class="collectMsg">
               <span class="detailTitle">文档标题：</span>
-               {{ '文档标题文档标题文档标题文档标题文档标题' }}
+               {{ detail.title }}
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">文档作者：</span>
-              {{ '文档作者111' }}
+              {{ detail.author }}
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">阅读数：</span>
-              {{ 111 }}
+              {{ detail.nrd }}
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">评论数：</span>
-              {{ 111 }}
+              {{ detail.nrply }}
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">发布时间：</span>
-              {{ "2013年10月23日" }}
+              {{ detail.pt }}
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">文档URL：</span>
-              <a href="" target="_blank" class="link">{{ "http://www.baidu.com" }}</a>
+              <a href="" target="_blank" class="link">{{ detail.url }}</a>
             </el-row>
             <el-row class="collectMsg">
               <span class="detailTitle">图片URL：</span>
               <span style="inline-bolck;">
-                <a href="" target="_blank" class="link">{{ "http://www.baidu.com" }}</a>
-                <br>
-                <a href="" target="_blank" class="link left95px">{{ "http://www.baidu.com" }}</a>
-                <br>
-                <a href="" target="_blank" class="link left95px">{{ "http://www.baidu.com" }}</a>
+                <template v-for="(item, index) in detail.lpic">
+                  <a href="" target="_blank" class="link" :class='{ left95px: index!=0 }' :key="'lpic'+index">{{ item }}</a>
+                  <br :key="'lpic'+index">
+                </template>
               </span>
             </el-row>
             <el-row class="collectMsg">文档正文：</el-row>
             <el-row>
-              There are already several excellent libraries with a functional flavor. Typically, they are meant to be general-purpose toolkits, suitable for working in multiple paradigms. Ramda has a more focused goal. We wanted a library designed specifically for a functional programming style, one that makes it easy to create functional pipelines, one that never mutates user data.
+              {{ detail.cont }}
             </el-row>
           </el-card>
         </el-col>
@@ -90,7 +89,8 @@ export default {
   computed: {
     ...mapState({
       path: state => state.path,
-      detail: state => state.detail
+      detail: state => state.detail,
+      detailLoading: state => state.detailLoading
     }),  
   }
 }

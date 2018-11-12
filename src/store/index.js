@@ -14,7 +14,8 @@ export default new Vuex.Store({
     task: {},
     detail: {},
     taskId: '',
-    resultLoading: true,
+    resultLoading: false,
+    detailLoading: false,
     totalCount: 0
   },
   mutations: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     setTotalCount(state, { totalCount }) {
       state.totalCount = totalCount
+    },
+    setDetailLoading(state, { detailLoading }) {
+      state.detailLoading = detailLoading
     },
   }
 })
