@@ -38,9 +38,7 @@
             <el-col>
               <span style="width:170px;display:inline-block">搜索引擎：</span>
               <el-select class="browserSelect" v-model="advanced.browser" multiple>
-                <el-option label="百度" value="baidu"></el-option>
-                <el-option label="谷歌" value="google"></el-option>
-                <el-option label="必应" value="bing"></el-option>
+                <el-option v-for="item in advancedBrowsers" :key='item' :label="item" :value="item"></el-option>
               </el-select>
             </el-col>
           </el-row>

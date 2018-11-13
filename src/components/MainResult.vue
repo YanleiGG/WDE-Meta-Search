@@ -68,6 +68,9 @@ export default {
       return this.results.slice((this.page-1)*10, this.page*10)
     },
   },
+  created() {
+    this.activeNames = ['','','','','','','','','','','','','','']
+  }
 }
 </script>
 <style scoped>
