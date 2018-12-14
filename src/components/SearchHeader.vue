@@ -168,7 +168,6 @@ export default {
       }
       this.setResultLoading({ resultLoading: true })
       this.setResultPageQuery({ resultPageQuery: query })
-      this.$router.push({path: '/result'})
       this.advancedDialog = false
       let start_time = '', end_time = ''
       if (this.advanced.datetime!='') {

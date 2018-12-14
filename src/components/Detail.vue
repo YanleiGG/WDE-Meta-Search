@@ -33,31 +33,31 @@
       <el-row>
         <el-col :span="18" :offset="3" v-loading='detailLoading'>
           <el-card shadow="never">
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.title && detail.title!=-1">
               <span class="detailTitle">文档标题：</span>
                {{ detail.title }}
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.author && detail.author!=-1">
               <span class="detailTitle">文档作者：</span>
               {{ detail.author }}
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.nrd && detail.nrd!=-1">
               <span class="detailTitle">阅读数：</span>
               {{ detail.nrd }}
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.nrply && detail.nrply!=-1">
               <span class="detailTitle">评论数：</span>
               {{ detail.nrply }}
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.pt && detail.pt!=-1">
               <span class="detailTitle">发布时间：</span>
               {{ detail.pt }}
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.url && detail.url!=-1">
               <span class="detailTitle">文档URL：</span>
               <a href="" target="_blank" class="link">{{ detail.url }}</a>
             </el-row>
-            <el-row class="collectMsg">
+            <el-row class="collectMsg" v-if="!!detail.lpic && detail.lpic!=-1">
               <span class="detailTitle">图片URL：</span>
               <span style="inline-bolck;">
                 <template v-for="(item, index) in detail.lpic">
@@ -66,7 +66,7 @@
                 </template>
               </span>
             </el-row>
-            <el-row class="collectMsg">文档正文：</el-row>
+            <el-row class="collectMsg" v-if="!!detail.cont && detail.cont!=-1">文档正文：</el-row>
             <el-row>
               {{ detail.cont }}
             </el-row>
